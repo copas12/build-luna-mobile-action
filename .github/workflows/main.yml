@@ -38,7 +38,7 @@ jobs:
         run: rm -rf luna-mobile/apps/luna-tablet/nodejs-assets/nodejs-project && mkdir luna-mobile/apps/luna-tablet/nodejs-assets/nodejs-project
         
       - name: Copy Middle Backend
-        run: cp -R luna-middle-backend-api/build/. && luna-mobile/apps/luna-tablet/nodejs-assets/nodejs-project
+        run: mv luna-middle-backend-api/build luna-mobile/apps/luna-tablet/nodejs-assets/nodejs-project && ls luna-mobile/apps/luna-tablet/nodejs-assets/nodejs-project
         
       - name: Build Luna Tablet
         run: cd luna-mobile && yarn build:android-tablet:prod
