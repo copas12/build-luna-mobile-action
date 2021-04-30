@@ -1,0 +1,22 @@
+name: Build
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup GitLab SSH
+        uses: MrSquaare/ssh-setup-action@v1
+        with:
+          host: gitlab.com
+          private-key: ${{ secrets.SSH_PRIVATE_KEY_GITLAB }}
+          private-key-name: gitlab
+      - name: Clone GitLab repository
+        run: git clone git@gitlab.com:piri/luna-middle-backend-api.git && ls
