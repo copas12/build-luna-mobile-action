@@ -48,7 +48,7 @@ jobs:
         run: >
             rm -rf ${{env.APP_PATH}}/nodejs-assets/nodejs-project && 
             mv luna-middle-backend-api/build ${{env.APP_PATH}}/nodejs-assets &&
-            mv ${{APP_PATH}}/nodejs-assets/build ${{env.APP_PATH}}/nodejs-assets/nodejs-project
+            mv ${{env.APP_PATH}}/nodejs-assets/build ${{env.APP_PATH}}/nodejs-assets/nodejs-project
         
       - name: Print File
         run:  ls ${{env.APP_PATH}}/nodejs-assets/nodejs-project
