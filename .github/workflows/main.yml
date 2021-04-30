@@ -14,7 +14,7 @@ jobs:
       
       - uses: actions/setup-java@v2
         with:
-          distribution: 'adopt' # See 'Supported distributions' for available options
+          distribution: 'adopt'
           java-version: '8'
           
       - name: Export Java
@@ -43,11 +43,18 @@ jobs:
       - name: Build Luna Tablet
         run: cd luna-mobile && yarn build:android-tablet:prod
         
+      - name: Get Time
+        id: time
+        uses: nanzm/get-time-action@v1.1
+        with:
+          timeZone: 8
+          format: 'YYYY-MM-DD-HH-mm-ss'
+          
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
-          name: release
-          path: luna-mobile/apps/luna-tablet/android/app/build/outputs/apk/release/app-release.apk
+          name: "luna-tablet [${{ steps.time.outputs.time }}]"
+          path: luna-mobile/apps/luna-tablet/android/app/build/outputs/apk/release/app-universal-release.apk
           
         
         
