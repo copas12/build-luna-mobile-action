@@ -1,4 +1,4 @@
-name: Build
+name: Build APK Tablet
 on:
   push:
     branches: [ main ]
