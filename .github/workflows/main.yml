@@ -26,7 +26,7 @@ jobs:
         run: git clone --single-branch --branch dev-master git@gitlab.com:piri/luna-mobile.git && cd luna-mobile && yarn
         
       - name: Create Symbolic Link
-        run: ln -s luna-middle-backend-api/build luna-mobile/apps/luna-phone/nodejs-assets/nodejs-tablet && ln -s luna-middle-backend-api/build luna-mobile/apps/luna-phone/nodejs-assets/nodejs-project
+        run: ln -s luna-middle-backend-api/build luna-mobile/apps/luna-tablet/nodejs-assets/nodejs-project && ln -s luna-middle-backend-api/build luna-mobile/apps/luna-phone/nodejs-assets/nodejs-project
         
       - name: Build Luna Tablet
         run: cd luna-mobile && yarn build:android-tablet:prod
