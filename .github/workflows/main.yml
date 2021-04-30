@@ -9,6 +9,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      APP_PATH: luna-mobile/apps/luna-tablet
+      TYPE: tablet
+      ENV: prod
+      
     steps:
       - uses: actions/checkout@v2
       
@@ -28,35 +33,40 @@ jobs:
           private-key-name: gitlab
           
       - name: Clone and Build Middle Backend
-        run: git clone --single-branch --branch dev-master git@gitlab.com:piri/luna-middle-backend-api.git && cd luna-middle-backend-api && yarn && yarn build-prod
+        run: >
+            git clone --single-branch --branch dev-master git@gitlab.com:piri/luna-middle-backend-api.git && 
+            cd luna-middle-backend-api && yarn && yarn build-${{ENV}}
         
       - name: Clone Luna Mobile
-        run: git clone --single-branch --branch dev-master git@gitlab.com:piri/luna-mobile.git && cd luna-mobile && yarn
+        run: > 
+            git clone --single-branch --branch dev-master git@gitlab.com:piri/luna-mobile.git && 
+            cd luna-mobile && 
+            yarn
         
         
       - name: Copy NodeJS Project
-        run: rm -rf luna-mobile/apps/luna-tablet/nodejs-assets/nodejs-project && mv luna-middle-backend-api/build luna-mobile/apps/luna-tablet/nodejs-assets && mv luna-mobile/apps/luna-tablet/nodejs-assets/build luna-mobile/apps/luna-tablet/nodejs-assets/nodejs-project
+        run: >
+            rm -rf ${{APP_PATH}}/nodejs-assets/nodejs-project && 
+            mv luna-middle-backend-api/build ${{APP_PATH}}/nodejs-assets &&
+            mv ${{APP_PATH}}/nodejs-assets/build ${{APP_PATH}}/nodejs-assets/nodejs-project
         
       - name: Print File
-        run:  ls luna-mobile/apps/luna-tablet/nodejs-assets/nodejs-project
+        run:  ls ${{APP_PATH}}/nodejs-assets/nodejs-project
         
-      - name: Build Luna Tablet
-        run: cd luna-mobile && yarn build:android-tablet:prod
+      - name: Build APK
+        run: >
+            cd luna-mobile && 
+            yarn build:android-${{TYPE}}:${{ENV}}
         
       - name: Get Time
         id: time
         uses: nanzm/get-time-action@v1.1
         with:
-          timeZone: 8
+          timeZone: 7
           format: 'YYYY-MM-DD-HH-mm-ss'
           
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
           name: "luna-tablet [${{ steps.time.outputs.time }}]"
-          path: luna-mobile/apps/luna-tablet/android/app/build/outputs/apk/release/app-universal-release.apk
-          
-        
-        
-#       - name: LS
-#         run: ls -la
+          path: ${{APP_PATH}}/android/app/build/outputs/apk/release/app-universal-release.apk
