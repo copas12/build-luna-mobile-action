@@ -68,5 +68,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
-          name: "luna-tablet [${{ steps.time.outputs.time }}]"
+          name: "luna-${{env.APP_TYPE}} [${{ steps.time.outputs.time }}]"
           path: ${{env.APP_PATH}}/android/app/build/outputs/apk/release/app-universal-release.apk
