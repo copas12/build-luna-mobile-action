@@ -1,4 +1,4 @@
-name: Build
+name: Build APK Phone
 on:
   push:
     branches: [ main ]
