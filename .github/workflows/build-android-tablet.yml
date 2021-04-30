@@ -63,10 +63,13 @@ jobs:
         uses: nanzm/get-time-action@v1.1
         with:
           timeZone: 7
-          format: 'YYYY-MM-DD-HH-mm-ss'
+          format: 'YYYY-MM-DD HH:mm:ss'
           
+      - name: Rename APK
+        run: cp ${{env.APP_PATH}}/android/app/build/outputs/apk/release/app-universal-release.apk luna-${{env.APP_TYPE}} [${{ steps.time.outputs.time }}].apk
+        
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
           name: "luna-${{env.APP_TYPE}} [${{ steps.time.outputs.time }}]"
-          path: ${{env.APP_PATH}}/android/app/build/outputs/apk/release/app-universal-release.apk
+          path: luna-${{env.APP_TYPE}} [${{ steps.time.outputs.time }}].apk
