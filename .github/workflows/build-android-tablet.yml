@@ -42,16 +42,12 @@ jobs:
             git clone --single-branch --branch dev-master git@gitlab.com:piri/luna-mobile.git && 
             cd luna-mobile && 
             yarn
-        
-        
+          
       - name: Copy NodeJS Project
         run: >
             rm -rf ${{env.APP_PATH}}/nodejs-assets/nodejs-project && 
             mv luna-middle-backend-api/build ${{env.APP_PATH}}/nodejs-assets &&
             mv ${{env.APP_PATH}}/nodejs-assets/build ${{env.APP_PATH}}/nodejs-assets/nodejs-project
-        
-      - name: Print File
-        run:  ls ${{env.APP_PATH}}/nodejs-assets/nodejs-project
         
       - name: Build APK
         run: >
@@ -67,6 +63,9 @@ jobs:
           
       - name: Rename APK
         run: cp ${{env.APP_PATH}}/android/app/build/outputs/apk/release/app-universal-release.apk luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
+        
+      - name: Print File
+        run:  ls la
         
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
