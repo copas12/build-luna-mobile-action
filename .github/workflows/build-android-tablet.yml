@@ -65,7 +65,7 @@ jobs:
         run: cp ${{env.APP_PATH}}/android/app/build/outputs/apk/release/app-universal-release.apk luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
         
       - name: Print File
-        run:  ls la
+        run:  ls -la
         
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
