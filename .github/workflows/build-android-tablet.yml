@@ -66,10 +66,10 @@ jobs:
           format: 'YYYY-MM-DD HH:mm:ss'
           
       - name: Rename APK
-        run: cp ${{env.APP_PATH}}/android/app/build/outputs/apk/release/app-universal-release.apk luna-${{env.APP_TYPE}} [${{ steps.time.outputs.time }}].apk
+        run: cp ${{env.APP_PATH}}/android/app/build/outputs/apk/release/app-universal-release.apk luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
         
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
-          name: "luna-${{env.APP_TYPE}} [${{ steps.time.outputs.time }}]"
-          path: luna-${{env.APP_TYPE}} [${{ steps.time.outputs.time }}].apk
+          name: "luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}]"
+          path: luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
