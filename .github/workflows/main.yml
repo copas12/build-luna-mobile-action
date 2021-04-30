@@ -19,4 +19,7 @@ jobs:
           private-key: ${{ secrets.SSH_PRIVATE_KEY_GITLAB }}
           private-key-name: gitlab
       - name: Clone GitLab repository
-        run: git clone git@gitlab.com:piri/luna-middle-backend-api.git && ls
+        run: git clone --single-branch --branch dev-master git@gitlab.com:piri/luna-middle-backend-api.git && cd luna-middle-backend-api && yarn && yarn build-prod
+        
+      - name: LS
+        run: ls -la
