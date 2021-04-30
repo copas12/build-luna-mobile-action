@@ -34,11 +34,11 @@ jobs:
         run: git clone --single-branch --branch dev-master git@gitlab.com:piri/luna-mobile.git && cd luna-mobile && yarn
         
         
-      - name: Empty NodeJS Project
-        run: rm -rf luna-mobile/apps/luna-tablet/nodejs-assets/nodejs-project && mkdir luna-mobile/apps/luna-tablet/nodejs-assets/nodejs-project
+      - name: Copy NodeJS Project
+        run: rm -rf luna-mobile/apps/luna-tablet/nodejs-assets/nodejs-project && mv luna-middle-backend-api/build luna-mobile/apps/luna-tablet/nodejs-assets && mv luna-mobile/apps/luna-tablet/nodejs-assets/build luna-mobile/apps/luna-tablet/nodejs-assets/nodejs-project
         
-      - name: Copy Middle Backend
-        run: mv luna-middle-backend-api/build luna-mobile/apps/luna-tablet/nodejs-assets/nodejs-project && ls luna-mobile/apps/luna-tablet/nodejs-assets/nodejs-project
+      - name: Print File
+        run:  ls luna-mobile/apps/luna-tablet/nodejs-assets/nodejs-project
         
       - name: Build Luna Tablet
         run: cd luna-mobile && yarn build:android-tablet:prod
