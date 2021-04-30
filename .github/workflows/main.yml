@@ -11,6 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt' # See 'Supported distributions' for available options
+          java-version: '8'
+          
+      - name: Export Java
+        run: export JAVA_HOME=`/usr/libexec/java_home -v 1.8` && echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 
       - name: Setup GitLab SSH
         uses: MrSquaare/ssh-setup-action@v1
@@ -39,5 +47,5 @@ jobs:
           
         
         
-      - name: LS
-        run: ls -la
+#       - name: LS
+#         run: ls -la
