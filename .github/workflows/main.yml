@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       APP_PATH: luna-mobile/apps/luna-tablet
-      TYPE: tablet
-      ENV: prod
+      APP_TYPE: tablet
+      APP_ENV: prod
       
     steps:
       - uses: actions/checkout@v2
@@ -35,7 +35,7 @@ jobs:
       - name: Clone and Build Middle Backend
         run: >
             git clone --single-branch --branch dev-master git@gitlab.com:piri/luna-middle-backend-api.git && 
-            cd luna-middle-backend-api && yarn && yarn build-${{ENV}}
+            cd luna-middle-backend-api && yarn && yarn build-${{env.APP_ENV}}
         
       - name: Clone Luna Mobile
         run: > 
@@ -46,17 +46,17 @@ jobs:
         
       - name: Copy NodeJS Project
         run: >
-            rm -rf ${{APP_PATH}}/nodejs-assets/nodejs-project && 
-            mv luna-middle-backend-api/build ${{APP_PATH}}/nodejs-assets &&
-            mv ${{APP_PATH}}/nodejs-assets/build ${{APP_PATH}}/nodejs-assets/nodejs-project
+            rm -rf ${{env.APP_PATH}}/nodejs-assets/nodejs-project && 
+            mv luna-middle-backend-api/build ${{env.APP_PATH}}/nodejs-assets &&
+            mv ${{APP_PATH}}/nodejs-assets/build ${{env.APP_PATH}}/nodejs-assets/nodejs-project
         
       - name: Print File
-        run:  ls ${{APP_PATH}}/nodejs-assets/nodejs-project
+        run:  ls ${{env.APP_PATH}}/nodejs-assets/nodejs-project
         
       - name: Build APK
         run: >
             cd luna-mobile && 
-            yarn build:android-${{TYPE}}:${{ENV}}
+            yarn build:android-${{env.APP_TYPE}}:${{env.APP_ENV}}
         
       - name: Get Time
         id: time
@@ -69,4 +69,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: "luna-tablet [${{ steps.time.outputs.time }}]"
-          path: ${{APP_PATH}}/android/app/build/outputs/apk/release/app-universal-release.apk
+          path: ${{env.APP_PATH}}/android/app/build/outputs/apk/release/app-universal-release.apk
