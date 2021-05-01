@@ -13,7 +13,6 @@ jobs:
    APP_PATH: luna-mobile/apps/luna-tablet
    APP_TYPE: tablet
    APP_ENV: prod
-   APP_SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
   steps:
    - uses: actions/checkout@v2
@@ -89,7 +88,7 @@ jobs:
 
    - name: Send Link to Slack
      run: >
-      curl -X POST -H 'Content-type: application/json' --data '{"text":"Build success: ${{ steps.create_release.outputs.upload_url }}"}' ${{APP_SLACK_WEBHOOK}}
+      curl -X POST -H 'Content-type: application/json' --data '{"text":"Build success: ${{ steps.create_release.outputs.upload_url }}"}' ${{ secrets.SLACK_WEBHOOK }}
 
 #       - name: Upload Artifact
 #         uses: actions/upload-artifact@v1
