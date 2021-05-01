@@ -1,91 +1,96 @@
 name: Build APK Phone
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
+ push:
+  branches: [main]
+ pull_request:
+  branches: [main]
+ workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    env:
-      APP_PATH: luna-mobile/apps/luna-phone
-      APP_TYPE: phone
-      APP_ENV: prod
-      
-    steps:
-      - uses: actions/checkout@v2
-      
-      - uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt'
-          java-version: '8'
-          
-      - name: Export Java
-        run: export JAVA_HOME=`/usr/libexec/java_home -v 1.8` && echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+ build:
+  runs-on: ubuntu-latest
+  env:
+   APP_PATH: luna-mobile/apps/luna-phone
+   APP_TYPE: phone
+   APP_ENV: prod
+   APP_SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+   
+  steps:
+   - uses: actions/checkout@v2
 
-      - name: Setup GitLab SSH
-        uses: MrSquaare/ssh-setup-action@v1
-        with:
-          host: gitlab.com
-          private-key: ${{ secrets.SSH_PRIVATE_KEY_GITLAB }}
-          private-key-name: gitlab
-          
-      - name: Clone and Build Middle Backend
-        run: >
-            git clone --single-branch --branch ${{ secrets.MIDDLE_BACKEND_BRANCH }} git@gitlab.com:piri/luna-middle-backend-api.git && 
-            cd luna-middle-backend-api && yarn && yarn build-${{env.APP_ENV}}
-        
-      - name: Clone Luna Mobile
-        run: > 
-            git clone --single-branch --branch ${{ secrets.REACT_NATIVE_BRANCH }} git@gitlab.com:piri/luna-mobile.git && 
-            cd luna-mobile && 
-            yarn
-              
-      - name: Copy NodeJS Project
-        run: >
-            rm -rf ${{env.APP_PATH}}/nodejs-assets/nodejs-project && 
-            mv luna-middle-backend-api/build ${{env.APP_PATH}}/nodejs-assets &&
-            mv ${{env.APP_PATH}}/nodejs-assets/build ${{env.APP_PATH}}/nodejs-assets/nodejs-project
-        
-      - name: Build APK
-        run: >
-            cd luna-mobile && 
-            yarn build:android-${{env.APP_TYPE}}:${{env.APP_ENV}}
-        
-      - name: Get Time
-        id: time
-        uses: nanzm/get-time-action@v1.1
-        with:
-          timeZone: 7
-          format: 'YYYY-MM-DD_HH.mm'
-      
-      - name: Rename APK
-        run: cp ${{env.APP_PATH}}/android/app/build/outputs/apk/release/app-universal-release.apk luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
-        
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-        with:
-          tag_name: ${{env.APP_TYPE}}_${{ steps.time.outputs.time }}
-          release_name: "[${{ steps.time.outputs.time }}] Release ${{env.APP_TYPE}}"
-          draft: false
-          prerelease: false
-          
-      - name: Upload Release Asset
-        id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
-          asset_name: luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
-          asset_content_type: application/vnd.android.package-archive
-      
+   - uses: actions/setup-java@v2
+     with:
+      distribution: "adopt"
+      java-version: "8"
+
+   - name: Export Java
+     run: export JAVA_HOME=`/usr/libexec/java_home -v 1.8` && echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+
+   - name: Setup GitLab SSH
+     uses: MrSquaare/ssh-setup-action@v1
+     with:
+      host: gitlab.com
+      private-key: ${{ secrets.SSH_PRIVATE_KEY_GITLAB }}
+      private-key-name: gitlab
+
+   - name: Clone and Build Middle Backend
+     run: >
+      git clone --single-branch --branch ${{ secrets.MIDDLE_BACKEND_BRANCH }} git@gitlab.com:piri/luna-middle-backend-api.git && 
+      cd luna-middle-backend-api && yarn && yarn build-${{env.APP_ENV}}
+
+   - name: Clone Luna Mobile
+     run: >
+      git clone --single-branch --branch ${{ secrets.REACT_NATIVE_BRANCH }} git@gitlab.com:piri/luna-mobile.git && 
+      cd luna-mobile && 
+      yarn
+
+   - name: Copy NodeJS Project
+     run: >
+      rm -rf ${{env.APP_PATH}}/nodejs-assets/nodejs-project && 
+      mv luna-middle-backend-api/build ${{env.APP_PATH}}/nodejs-assets &&
+      mv ${{env.APP_PATH}}/nodejs-assets/build ${{env.APP_PATH}}/nodejs-assets/nodejs-project
+
+   - name: Build APK
+     run: >
+      cd luna-mobile && 
+      yarn build:android-${{env.APP_TYPE}}:${{env.APP_ENV}}
+
+   - name: Get Time
+     id: time
+     uses: nanzm/get-time-action@v1.1
+     with:
+      timeZone: 7
+      format: "YYYY-MM-DD_HH.mm"
+
+   - name: Rename APK
+     run: cp ${{env.APP_PATH}}/android/app/build/outputs/apk/release/app-universal-release.apk luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
+
+   - name: Create Release
+     id: create_release
+     uses: actions/create-release@v1
+     env:
+      GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+     with:
+      tag_name: ${{env.APP_TYPE}}_${{ steps.time.outputs.time }}
+      release_name: "[${{ steps.time.outputs.time }}] Release ${{env.APP_TYPE}}"
+      draft: false
+      prerelease: false
+
+   - name: Upload Release Asset
+     id: upload-release-asset
+     uses: actions/upload-release-asset@v1
+     env:
+      GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+     with:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      asset_path: luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
+      asset_name: luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
+      asset_content_type: application/vnd.android.package-archive
+
+   - name: Send Link to Slack
+     run: >
+      curl -X POST -H 'Content-type: application/json' --data '{"text":"Build success: ${{ steps.create_release.outputs.upload_url }}"}' ${{APP_SLACK_WEBHOOK}}
+
 #       - name: Upload Artifact
 #         uses: actions/upload-artifact@v1
 #         with:
