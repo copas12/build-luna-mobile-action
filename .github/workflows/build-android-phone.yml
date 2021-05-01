@@ -70,24 +70,24 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
+          tag_name: ${{ github.ref }} - luna-${{env.APP_TYPE}} - [${{ steps.time.outputs.time }}]
           release_name: Release ${{env.APP_TYPE}} [${{ steps.time.outputs.time }}]
           draft: false
           prerelease: false
           
-      - name: Upload Release Asset
-        id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
-          asset_name: luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
-          asset_content_type: application/vnd.android.package-archive
+#       - name: Upload Release Asset
+#         id: upload-release-asset 
+#         uses: actions/upload-release-asset@v1
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+#         with:
+#           upload_url: ${{ steps.create_release.outputs.upload_url }}
+#           asset_path: luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
+#           asset_name: luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
+#           asset_content_type: application/vnd.android.package-archive
       
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: "luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}]"
-          path: luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
+#       - name: Upload Artifact
+#         uses: actions/upload-artifact@v1
+#         with:
+#           name: "luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}]"
+#           path: luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
