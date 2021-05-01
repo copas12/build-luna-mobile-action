@@ -70,7 +70,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
         with:
-          tag_name: ${{ steps.time.outputs.time }}
+          tag_name: ${{env.APP_TYPE}}_${{ steps.time.outputs.time }}
           release_name: Release ${{env.APP_TYPE}} [${{ steps.time.outputs.time }}]
           draft: false
           prerelease: false
@@ -80,3 +80,9 @@ jobs:
         with:
           name: "luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}]"
           path: luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
+      
+#       - name: Upload Artifact
+#         uses: actions/upload-artifact@v1
+#         with:
+#           name: "luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}]"
+#           path: luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
