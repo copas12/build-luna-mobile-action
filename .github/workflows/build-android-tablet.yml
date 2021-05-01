@@ -75,8 +75,8 @@ jobs:
           draft: false
           prerelease: false
         
-#       - name: Upload Artifact
-#         uses: actions/upload-artifact@v1
-#         with:
-#           name: "luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}]"
-#           path: luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: "luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}]"
+          path: luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
