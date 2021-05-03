@@ -51,7 +51,7 @@ jobs:
       
    - name: Copy NodeJS Project
      run: >
-      rm -rf ${{env.APP_PATH}}/nodejs-assets/nodejs-project && 
+      mkdir ${{env.APP_PATH}}/nodejs-assets && 
       mv luna-middle-backend-api/build ${{env.APP_PATH}}/nodejs-assets &&
       mv ${{env.APP_PATH}}/nodejs-assets/build ${{env.APP_PATH}}/nodejs-assets/nodejs-project
 
