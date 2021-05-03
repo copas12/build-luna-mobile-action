@@ -78,7 +78,7 @@ jobs:
      env:
       GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
      with:
-      tag_name: ${{env.APP_TYPE}}_${{env.APP_ENV}}_${{ steps.time.outputs.time }}
+      tag_name: ${{ steps.time.outputs.time }}
       release_name: "[${{ steps.time.outputs.time }}] Release ${{env.APP_TYPE}} ${{env.APP_ENV}"
       draft: false
       prerelease: false
