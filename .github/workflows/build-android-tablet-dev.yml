@@ -45,18 +45,20 @@ jobs:
      run: >
       git clone --single-branch --branch ${{ secrets.MIDDLE_BACKEND_BRANCH }} git@gitlab.com:piri/luna-middle-backend-api.git && 
       cd luna-middle-backend-api && yarn && yarn build-${{env.APP_ENV}}
-
+ 
    - name: Clone Luna Mobile
-     run: >
-      git clone --single-branch --branch ${{ secrets.REACT_NATIVE_BRANCH }} git@gitlab.com:piri/luna-mobile.git && 
-      cd luna-mobile && 
-      yarn
-
+     run: git clone --single-branch --branch ${{ secrets.REACT_NATIVE_BRANCH }} git@gitlab.com:piri/luna-mobile.git
+      
    - name: Copy NodeJS Project
      run: >
       rm -rf ${{env.APP_PATH}}/nodejs-assets/nodejs-project && 
       mv luna-middle-backend-api/build ${{env.APP_PATH}}/nodejs-assets &&
       mv ${{env.APP_PATH}}/nodejs-assets/build ${{env.APP_PATH}}/nodejs-assets/nodejs-project
+
+   - name: Install Luna Mobile Dependencies
+     run: >
+      cd luna-mobile && 
+      yarn
 
    - name: Build APK
      run: >
