@@ -11,9 +11,9 @@ jobs:
   runs-on: ubuntu-latest
   env:
    APP_PATH: luna-mobile/apps/luna-phone
-   APP_TYPE: phone
+   APP_TYPE: tablet
    APP_ENV: prod
-   
+
   steps:
    - uses: actions/checkout@v2
 
@@ -31,7 +31,7 @@ jobs:
 
    - name: Start Actions
      run: >
-      curl -X POST -H 'Content-type: application/json' --data '{"text":"`Luna ${{env.APP_TYPE}} actions started` \n${{steps.get_log_url.outputs.result}}"}' ${{ secrets.SLACK_WEBHOOK }}
+      curl -X POST -H 'Content-type: application/json' --data '{"text":"`Luna ${{env.APP_TYPE}} ${{env.APP_ENV}} actions started` \n${{steps.get_log_url.outputs.result}}"}' ${{ secrets.SLACK_WEBHOOK }}
 
    - name: Setup GitLab SSH
      uses: MrSquaare/ssh-setup-action@v1
@@ -70,7 +70,7 @@ jobs:
       format: "YYYY-MM-DD_HH.mm"
 
    - name: Rename APK
-     run: cp ${{env.APP_PATH}}/android/app/build/outputs/apk/release/app-universal-release.apk luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
+     run: cp ${{env.APP_PATH}}/android/app/build/outputs/apk/release/app-universal-release.apk luna-${{env.APP_TYPE}}-${{env.APP_ENV}}_[${{ steps.time.outputs.time }}].apk
 
    - name: Create Release
      id: create_release
@@ -78,8 +78,8 @@ jobs:
      env:
       GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
      with:
-      tag_name: ${{env.APP_TYPE}}_${{ steps.time.outputs.time }}
-      release_name: "[${{ steps.time.outputs.time }}] Release ${{env.APP_TYPE}}"
+      tag_name: ${{env.APP_TYPE}}_${{env.APP_ENV}_${{ steps.time.outputs.time }}
+      release_name: "[${{ steps.time.outputs.time }}] Release ${{env.APP_TYPE}} ${{env.APP_ENV}"
       draft: false
       prerelease: false
 
@@ -90,8 +90,8 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
      with:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
-      asset_path: luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
-      asset_name: luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
+      asset_path: luna-${{env.APP_TYPE}}-${{env.APP_ENV}}_[${{ steps.time.outputs.time }}].apk
+      asset_name: luna-${{env.APP_TYPE}}-${{env.APP_ENV}}_[${{ steps.time.outputs.time }}].apk
       asset_content_type: application/vnd.android.package-archive
 
    - name: Send Link to Slack
