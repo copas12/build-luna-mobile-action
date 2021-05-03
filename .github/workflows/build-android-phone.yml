@@ -25,8 +25,8 @@ jobs:
    - name: Export Java
      run: export JAVA_HOME=`/usr/libexec/java_home -v 1.8` && echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 
-  - name: Start Actions
-    run: >
+   - name: Start Actions
+     run: >
       curl -X POST -H 'Content-type: application/json' --data '{"text":"`Luna ${{env.APP_TYPE}} actions started` \nhttps://github.com/${{ github.repository }}/runs/${{ github.run_id }}"}' ${{ secrets.SLACK_WEBHOOK }}
 
    - name: Setup GitLab SSH
