@@ -13,6 +13,7 @@ jobs:
    APP_PATH: luna-mobile/apps/luna-tablet
    APP_TYPE: tablet
    APP_ENV: prod
+   TAG: LTP
 
   steps:
    - uses: actions/checkout@v2
@@ -78,7 +79,7 @@ jobs:
      env:
       GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
      with:
-      tag_name: ${{ steps.time.outputs.time }}
+      tag_name: ${{env.TAG}}_${{ steps.time.outputs.time }}
       release_name: "[${{ steps.time.outputs.time }}] ${{env.APP_TYPE}} ${{env.APP_ENV}}"
       draft: false
       prerelease: false
