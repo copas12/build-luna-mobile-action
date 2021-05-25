@@ -59,6 +59,12 @@ jobs:
      run: >
       cd luna-mobile && 
       yarn
+   
+   - name: Build APK
+     run: >
+      cd luna-mobile && 
+      yarn clean:android-${{env.APP_TYPE}}
+
   
    - name: Build APK
      run: >
