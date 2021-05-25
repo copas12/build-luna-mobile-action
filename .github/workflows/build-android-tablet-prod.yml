@@ -59,8 +59,12 @@ jobs:
      run: >
       cd luna-mobile && 
       yarn
-   
-   - name: Build APK
+
+   - uses: nttld/setup-ndk@v1
+     with:
+      ndk-version: r21e
+  
+   - name: Clean
      run: >
       cd luna-mobile && 
       yarn clean:android-${{env.APP_TYPE}}
