@@ -59,8 +59,7 @@ jobs:
 
    - name: Install Luna Mobile Dependencies
      run: >
-      cd luna-mobile && 
-      rm -rf .yarn && yarn
+      cd luna-mobile && yarn
 
    - name: Clean
      run: >
