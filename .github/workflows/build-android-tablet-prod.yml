@@ -44,8 +44,7 @@ jobs:
    - name: Clone and Build Middle Backend
      run: >
       git clone --single-branch --branch ${{ secrets.MIDDLE_BACKEND_BRANCH }} git@gitlab.com:piri/luna-middle-backend-api.git && 
-      cd luna-middle-backend-api && yarn && yarn build-${{env.APP_ENV}} &&
-      rm -rf build/node_modules
+      cd luna-middle-backend-api && yarn && yarn build-${{env.APP_ENV}}
 
    - name: Clone Luna Mobile
      run: git clone --single-branch --branch ${{ secrets.REACT_NATIVE_BRANCH }} git@gitlab.com:piri/luna-mobile.git
@@ -54,8 +53,7 @@ jobs:
      run: >
       mkdir ${{env.APP_PATH}}/nodejs-assets && 
       mv luna-middle-backend-api/build ${{env.APP_PATH}}/nodejs-assets &&
-      mv ${{env.APP_PATH}}/nodejs-assets/build ${{env.APP_PATH}}/nodejs-assets/nodejs-project &&
-      cd ${{env.APP_PATH}}/nodejs-assets/nodejs-project && yarn
+      mv ${{env.APP_PATH}}/nodejs-assets/build ${{env.APP_PATH}}/nodejs-assets/nodejs-project
 
    - name: Install Luna Mobile Dependencies
      run: >
