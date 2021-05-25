@@ -8,7 +8,7 @@ on:
 
 jobs:
  build:
-  runs-on: ubuntu-latest
+  runs-on: macos-latest
   env:
    APP_PATH: luna-mobile/apps/luna-tablet
    APP_TYPE: tablet
@@ -17,6 +17,10 @@ jobs:
 
   steps:
    - uses: actions/checkout@v2
+
+   - uses: actions/setup-node@v2
+     with:
+      node-version: '12.21.0'
 
    - uses: actions/setup-java@v2
      with:
@@ -30,9 +34,9 @@ jobs:
      id: get_log_url
      uses: subekti404dev/github-action-get-log-url@main
 
-   - name: Start Actions
-     run: >
-      curl -X POST -H 'Content-type: application/json' --data '{"text":"`Luna ${{env.APP_TYPE}} ${{env.APP_ENV}} actions started` \n${{steps.get_log_url.outputs.result}}"}' ${{ secrets.SLACK_WEBHOOK }}
+  #  - name: Start Actions
+  #    run: >
+  #     curl -X POST -H 'Content-type: application/json' --data '{"text":"`Luna ${{env.APP_TYPE}} ${{env.APP_ENV}} actions started` \n${{steps.get_log_url.outputs.result}}"}' ${{ secrets.SLACK_WEBHOOK }}
 
    - name: Setup GitLab SSH
      uses: MrSquaare/ssh-setup-action@v1
