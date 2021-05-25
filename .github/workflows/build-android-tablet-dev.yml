@@ -1,4 +1,4 @@
-name: Build APK Phone Dev
+name: Build APK Tablet Dev
 on:
  push:
   branches: [main]
@@ -8,14 +8,18 @@ on:
 
 jobs:
  build:
-  runs-on: macos-latest
+  runs-on: macos-10.15
   env:
-   APP_PATH: luna-mobile/apps/luna-phone
-   APP_TYPE: phone
+   APP_PATH: luna-mobile/apps/luna-tablet
+   APP_TYPE: tablet
    APP_ENV: dev
-   TAG: LPD
+   TAG: LTD
 
   steps:
+   - name: Nuke CMake 3.18.1-g262b901
+     run: |
+        ~/Library/Android/sdk/tools/bin/sdkmanager --uninstall 'cmake;3.18.1'
+   
    - uses: actions/checkout@v2
 
    - uses: actions/setup-java@v2
@@ -57,13 +61,18 @@ jobs:
 
    - name: Install Luna Mobile Dependencies
      run: >
-      cd luna-mobile && 
-      yarn
+      cd luna-mobile && yarn
 
+   - name: Clean
+     run: >
+      cd ${{env.APP_PATH}} && 
+      yarn clean
+
+  
    - name: Build APK
      run: >
-      cd luna-mobile && 
-      yarn build:android-${{env.APP_TYPE}}:${{env.APP_ENV}}
+      cd ${{env.APP_PATH}} && 
+      yarn build-${{env.APP_ENV}}
 
    - name: Get Time
      id: time
