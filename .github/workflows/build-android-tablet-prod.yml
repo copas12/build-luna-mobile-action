@@ -15,9 +15,6 @@ jobs:
    APP_ENV: prod
    TAG: LTP
 
-  container:
-    image: androidsdk:android-29
-
   steps:
    - uses: actions/checkout@v2
 
