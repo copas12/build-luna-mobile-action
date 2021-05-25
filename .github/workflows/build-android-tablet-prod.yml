@@ -16,7 +16,7 @@ jobs:
    TAG: LTP
 
   container:
-    image: androidsdk/android-29
+    image: androidsdk:android-29
 
   steps:
    - uses: actions/checkout@v2
