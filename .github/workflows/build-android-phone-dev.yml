@@ -100,12 +100,12 @@ jobs:
       asset_name: luna-${{env.APP_TYPE}}-${{env.APP_ENV}}_[${{ steps.time.outputs.time }}].apk
       asset_content_type: application/vnd.android.package-archive
 
-   - name: Send Link to Slack
-     run: >
-      curl -X POST -H 'Content-type: application/json' --data '{"text":"`Build Successful` \n${{ steps.upload_release_asset.outputs.browser_download_url }}"}' ${{ secrets.SLACK_WEBHOOK }}
+  #  - name: Send Link to Slack
+  #    run: >
+  #     curl -X POST -H 'Content-type: application/json' --data '{"text":"`Build Successful` \n${{ steps.upload_release_asset.outputs.browser_download_url }}"}' ${{ secrets.SLACK_WEBHOOK }}
 
-#       - name: Upload Artifact
-#         uses: actions/upload-artifact@v1
-#         with:
-#           name: "luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}]"
-#           path: luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
+  # - name: Upload Artifact
+  #   uses: actions/upload-artifact@v1
+  #   with:
+  #     name: "luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}]"
+  #     path: luna-${{env.APP_TYPE}}_[${{ steps.time.outputs.time }}].apk
