@@ -16,10 +16,8 @@ jobs:
    TAG: LPD
 
   steps:
-   - name: Home
-     run: cd ~ && ls -la
 
    - name: ADB
-     run: which adb
+     run: echo $ANDROID_SDK_ROOT
    
    
