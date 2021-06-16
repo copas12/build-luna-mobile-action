@@ -17,7 +17,7 @@ jobs:
 
   steps:
    - name: Home
-     run: cd ~ && l
+     run: cd ~ && ls -la
 
    - name: ADB
      run: which adb
