@@ -8,7 +8,7 @@ on:
 
 jobs:
  build:
-  runs-on: ubuntu-latest
+  runs-on: macos-10.15
   env:
    APP_PATH: luna-mobile/apps/luna-tablet
    APP_TYPE: tablet
@@ -53,16 +53,16 @@ jobs:
    - name: Clone Luna Mobile
      run: git clone --single-branch --branch ${{ secrets.REACT_NATIVE_BRANCH }} git@gitlab.com:piri/luna-mobile.git
       
-   - name: Copy NodeJS Project
-     run: >
-      mkdir ${{env.APP_PATH}}/nodejs-assets && 
-      mv luna-middle-backend-api/build ${{env.APP_PATH}}/nodejs-assets &&
-      mv ${{env.APP_PATH}}/nodejs-assets/build ${{env.APP_PATH}}/nodejs-assets/nodejs-project
-
    - name: Install Luna Mobile Dependencies
      run: >
       cd luna-mobile && yarn
-  
+
+   - name: Copy NodeJS Project
+     run: >
+      rm -rf ${{env.APP_PATH}}/nodejs-assets/nodejs-project &&
+      mv luna-middle-backend-api/build ${{env.APP_PATH}}/nodejs-assets &&
+      mv ${{env.APP_PATH}}/nodejs-assets/build ${{env.APP_PATH}}/nodejs-assets/nodejs-project
+
    - name: Build APK
      run: >
       cd ${{env.APP_PATH}} && 
