@@ -1,4 +1,4 @@
-name: Build APK Phone Dev
+name: Build APK Phone Prod
 on:
  push:
   branches: [main]
@@ -12,14 +12,13 @@ jobs:
   env:
    APP_PATH: luna-mobile/apps/luna-phone
    APP_TYPE: phone
-   APP_ENV: dev
-   TAG: LPD
+   APP_ENV: prod
+   TAG: LPP
 
   steps:
    - name: Nuke CMake 3.18.1-g262b901
-     run: |
-        ~/Android/sdk/tools/bin/sdkmanager --uninstall 'cmake;3.18.1'
-   
+     run: $ANDROID_SDK_ROOT/tools/bin/sdkmanager --uninstall 'cmake;3.18.1'
+  
    - uses: actions/checkout@v2
 
    - uses: actions/setup-java@v2

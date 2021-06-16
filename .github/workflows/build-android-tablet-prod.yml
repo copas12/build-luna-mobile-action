@@ -1,4 +1,4 @@
-name: Build APK Tablet Dev
+name: Build APK Tablet Prod
 on:
  push:
   branches: [main]
@@ -12,13 +12,12 @@ jobs:
   env:
    APP_PATH: luna-mobile/apps/luna-tablet
    APP_TYPE: tablet
-   APP_ENV: dev
-   TAG: LTD
+   APP_ENV: prod
+   TAG: LTP
 
   steps:
    - name: Nuke CMake 3.18.1-g262b901
-     run: |
-        ~/Android/sdk/tools/bin/sdkmanager --uninstall 'cmake;3.18.1'
+     run: $ANDROID_SDK_ROOT/tools/bin/sdkmanager --uninstall 'cmake;3.18.1'
    
    - uses: actions/checkout@v2
 
