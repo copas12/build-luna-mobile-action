@@ -18,7 +18,7 @@ jobs:
   steps:
    - name: Nuke CMake 3.18.1-g262b901
      run: |
-        ~/Library/Android/sdk/tools/bin/sdkmanager --uninstall 'cmake;3.18.1'
+        ~/Android/sdk/tools/bin/sdkmanager --uninstall 'cmake;3.18.1'
    
    - uses: actions/checkout@v2
 
