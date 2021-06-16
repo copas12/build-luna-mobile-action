@@ -19,6 +19,9 @@ jobs:
    - name: Nuke CMake 3.18.1-g262b901
      run: $ANDROID_SDK_ROOT/tools/bin/sdkmanager --uninstall 'cmake;3.18.1'
 
+   - name: Increase max_user_watches
+     run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+
    - uses: actions/checkout@v2
 
    - uses: actions/setup-java@v2
