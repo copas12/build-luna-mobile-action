@@ -18,6 +18,6 @@ jobs:
   steps:
    - name: Test
      run: |
-        which adb
+        cd ~ && l
    
    
