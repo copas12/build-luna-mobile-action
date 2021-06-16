@@ -16,8 +16,10 @@ jobs:
    TAG: LPD
 
   steps:
-   - name: Test
-     run: |
-        cd ~ && l
+   - name: Home
+     run: cd ~ && l
+
+   - name: ADB
+     run: which adb
    
    
